@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/fabiofmo/go-api-postgres-docker/controller"
-	"github.com/fabiofmo/go-api-postgres-docker/model"
+	"github.com/fabiofmo/go-api-postgres-docker/db"
+	"github.com/fabiofmo/go-api-postgres-docker/repository"
+	"github.com/fabiofmo/go-api-postgres-docker/usecase"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,27 +14,17 @@ func main() {
 
 	router := gin.Default()
 
-	ProductController := controller.NewProductController()
-	router.GET("/products", ProductController.GetProducts)
+	dbConnection, err := db.ConnectDB()
+	if err != nil {
+		panic(err)
+	}
 
-	router.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	ProductRepository := repository.NewProductRepository(dbConnection)   // camada de respository
+	ProductUsecase := usecase.NewProductUsecase(ProductRepository)       // camada de usecase
+	ProductController := controller.NewProductController(ProductUsecase) // camada de controllers
 
-	router.GET("/product", getAllProducts)
+	router.GET("/product", ProductController.GetProducts)
+	router.GET("/ping", func(ctx *gin.Context) { ctx.JSON(http.StatusOK, gin.H{"message": "pong"}) })
 	router.Run("localhost:8080")
 
-}
-
-func getAllProducts(context *gin.Context) {
-	products := []model.Product{
-		{
-			ID:    1,
-			Name:  "Batata frita",
-			Price: 20,
-		},
-	}
-	context.IndentedJSON(http.StatusOK, products)
 }
