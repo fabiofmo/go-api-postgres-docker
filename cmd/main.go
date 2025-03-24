@@ -24,6 +24,7 @@ func main() {
 	ProductController := controller.NewProductController(ProductUsecase) // camada de controllers
 
 	router.GET("/product", ProductController.GetProducts)
+	router.POST("/product/", ProductController.CreateProduct)
 	router.GET("/ping", func(ctx *gin.Context) { ctx.JSON(http.StatusOK, gin.H{"message": "pong"}) })
 	router.Run("localhost:8080")
 
