@@ -1,9 +1,9 @@
-FROM golang:1.18
+FROM golang:1.24.1
 
 #Set working directory
 #/go/src/app
-#/app
-WORKDIR /Users/fabio/OneDrive/Documents/DEV/Go/go-api-postgres-docker
+#/Users/fabio/OneDrive/Documents/DEV/Go/go-api-postgres-docker
+WORKDIR /app
 
 
 # Copy the source code
@@ -13,7 +13,7 @@ COPY . .
 EXPOSE 8080
 
 # Build the Go app
-RUN go build -o main ./cmd/main.go
+RUN go build -o main cmd/main.go
 
 # Run the executable
 CMD ["./main"]

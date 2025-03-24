@@ -28,6 +28,6 @@ func main() {
 	router.POST("/product/add", ProductController.CreateProduct)
 
 	router.GET("/ping", func(ctx *gin.Context) { ctx.JSON(http.StatusOK, gin.H{"message": "pong"}) })
-	router.Run("localhost:8080")
+	router.Run("localhost:8000")
 
 }
