@@ -2,12 +2,11 @@ FROM golang:1.24.1
 
 #Set working directory
 #/go/src/app
-#/Users/fabio/OneDrive/Documents/DEV/Go/go-api-postgres-docker
-WORKDIR /app
+WORKDIR /go/src/app
 
 
 # Copy the source code
-COPY . .  
+COPY . .
 
 # EXPOSE the port on container
 EXPOSE 8080

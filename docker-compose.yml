@@ -1,4 +1,4 @@
-version: "3.9"
+#version: "3.9"
 
 services:
   go-api-app:
@@ -11,7 +11,7 @@ services:
       - go_db
   go_db:
     container_name: go_db
-    image: postgres:12
+    image: go_api_db-postgres:12
     environment:
       POSTGRES_PASSWORD: 123
       POSTGRES_USER: postgres
